@@ -25,7 +25,7 @@ Masina::Masina(const Masina& other)
 	tip_combustibil = other.tip_combustibil;
 	cutie_viteze = other.cutie_viteze;
 
-	countMasini++;
+	id = ++countMasini;
 }
 
 Masina::~Masina()
@@ -45,7 +45,8 @@ Masina::~Masina()
 
 void Masina::afisare(std::ostream& out) const
 {
-	out << "\n\n------------------ MASINA NR. " << id << " ------------------------\n";
+	out << "\n------------------ MASINA NR. " << id << " ------------------------\n";
+	out << "                   " << typeid(*this).name() << '\n';
 	out << "Marca: " << marca << '\n';
 	out << "Model: " << model << '\n';
 	out << "Culoare: " << culoare << '\n';
@@ -54,7 +55,6 @@ void Masina::afisare(std::ostream& out) const
 	out << "Cai Putere: " << cai_putere<< '\n';
 	out << "Tip Combustibil: " << Combustibil[tip_combustibil] << '\n';
 	out << "Cutie de Viteze: " << Cutie[cutie_viteze] << '\n';
-	out << "--------------------------------------------------------\n\n";
 }
 
 Masina& Masina::operator=(const Masina& other)
@@ -74,10 +74,11 @@ Masina& Masina::operator=(const Masina& other)
 
 std::istream& operator>>(std::istream& in, Masina& masina)
 {
+	in.get();
 	std::cout << "\n\n------------ INTRODUCERE MASINA NOUA -------------\n";
-	std::cout << "Marca: "; in >> masina.marca;
-	std::cout << "Model: "; in >> masina.model;
-	std::cout << "Culoare: "; in >> masina.culoare;
+	std::cout << "Marca: "; std::getline(in, masina.marca);
+	std::cout << "Model: "; std::getline(in, masina.model);
+	std::cout << "Culoare: "; std::getline(in, masina.culoare);
 	std::cout << "An: "; in >> masina.an;
 	std::cout << "Capacitate Cilindrica: "; in >> masina.capacitate_cilindrica;
 	std::cout << "Cai Putere: "; in >> masina.cai_putere;
@@ -95,6 +96,8 @@ std::istream& operator>>(std::istream& in, Masina& masina)
 			continue;
 		}
 	}
+
+	// facem conversia de la int la enum, atribuind astfel combustibilul aferent
 	masina.tip_combustibil = static_cast<COMBUSTIBIL>(c);
 
 	while (true) {

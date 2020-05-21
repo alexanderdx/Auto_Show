@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include <typeinfo>
 
 #include "MyExceptions.h"
 
@@ -63,6 +64,7 @@ public:
 	virtual ~Masina();
 
 	virtual void afisare(std::ostream& out) const;
+	int getID() const{ return id; }
 	static int getNrMasini() { return countMasini; }
 
 	Masina& operator=(const Masina& other);
